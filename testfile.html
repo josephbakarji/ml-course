@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ML_tutorial</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<p>Let’s first import the libraries we need for running the show</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span></code></pre></div>
+<p>Any machine learning problem starts with data! If you have a machine
+learning idea in mind, first look for the data. If it’s hard to get, you
+might want to change your mind. The more data the better, especially if
+you planning to use neural networks.</p>
+<p>In this problem we will generate the data instead of collecting it.
+This is not uncommon in some applications like physics constrained
+learning. Sometimes, you already have a predictor but you want to make
+it faster, so you create a surrogate model using machine learning to
+make fast predictions.</p>
+<p>We’ll generate 100 data points for a parabolic function <span
+class="math inline"><em>y</em> = <em>x</em><sup>2</sup></span>. We’ll
+add some “measurement noise” to mimic real-world data and explore the
+concepts of over- and under-fitting.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate data</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>noise_strength <span class="op">=</span> <span class="dv">10</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> noise_strength <span class="op">*</span> (np.random.random((<span class="bu">len</span>(x)))<span class="op">-</span><span class="fl">0.5</span>)</span></code></pre></div>
+<p>Now we can split the data into training, validation and test sets.
+The training set is used to optimize the model and find the optimal
+weights <span class="math inline">$\hat{\mathbf w}$</span>, the
+validation set is used to test the generalization error while trying
+different hyperparameters and models, and the test set is finally used
+to evaluate your final generalization error.</p>
+<p>The validation set is sometimes called a “dev” set.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>test_size <span class="op">=</span> <span class="fl">0.2</span> <span class="co"># Partion of data in test set</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>shuffle <span class="op">=</span> <span class="va">False</span> <span class="co"># Whether to sample anywhere in domain of x or separate training and testing domains</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into train/dev/test</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x_train, x_test, y_train, y_test <span class="op">=</span> train_test_split(x, y, test_size<span class="op">=</span>test_size, shuffle<span class="op">=</span>shuffle)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>x_train, x_dev, y_train, y_dev <span class="op">=</span> train_test_split(x_train, y_train, test_size<span class="op">=</span>test_size, shuffle<span class="op">=</span>shuffle)</span></code></pre></div>
+<p>Note that I’m not shuffling the data to highlight the idea of
+extrapolation. This is common with time series data where the purpose of
+a machine learning model is to predict the future. This is illustrated
+in the visualization below. You’ll see how over-fitting doesn’t do well
+on extrapolation.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x_train, y_train, <span class="st">&#39;k.&#39;</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.plot(x_dev, y_dev, <span class="st">&#39;b.&#39;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.plot(x_test, y_test, <span class="st">&#39;r.&#39;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.legend([<span class="st">&#39;train&#39;</span>, <span class="st">&#39;dev&#39;</span>, <span class="st">&#39;test&#39;</span>])</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_7_0.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p>Once you visualize the data try to get an intuition on the trends,
+you’re ready to design your feature vector. We’ll define a function that
+takes the data <span class="math inline"><em>x</em></span> as an input
+and transforms it into a matrix containing polynomial features. The
+first column is contain the bias because <span
+class="math inline"><em>x</em><sup>0</sup> = 1</span>, and the <span
+class="math inline"><em>i</em> + 1</span>-st column will have the data
+for <span
+class="math inline"><em>x</em><sup><em>i</em></sup></span>.</p>
+<p>Let’s define that function</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_features(x, degree<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.zeros((<span class="bu">len</span>(x), degree<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(degree<span class="op">+</span><span class="dv">1</span>):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        X[:, i] <span class="op">=</span> x<span class="op">**</span>i</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X</span></code></pre></div>
+<p>Now we’re ready to create our input output data. In practice, you’ll
+have to split your data after building the feature matrix, not before
+(as I did above). We will start with a first order polynomial (i.e. a
+simple line).</p>
+<p>To be consistent I will reshape <span
+class="math inline"><em>y</em></span> to be a $ n $ dimension vector
+instead of a <span class="math inline"><em>n</em></span> dimensional
+vector.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> make_features(x, degree<span class="op">=</span>d)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Y <span class="op">=</span> y.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into train/dev/test</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>X_train, X_test, Y_train, Y_test <span class="op">=</span> train_test_split(X, Y, test_size<span class="op">=</span>test_size, shuffle<span class="op">=</span>shuffle)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>X_train, X_dev, Y_train, Y_dev <span class="op">=</span> train_test_split(X_train, Y_train, test_size<span class="op">=</span>test_size, shuffle<span class="op">=</span>shuffle)</span></code></pre></div>
+<p>Now we’re ready to fit the model to the training set! Fortunately, in
+most cases, if you’re interested in applying machine learning to a
+problem, you don’t have to worry about the optimizer. You might need to
+choose some hyperparameters like the step size or the optimization
+algorithm but you don’t have to write the stochastic gradient descent
+algorithm from scratch. That would be a waste of time; unless you really
+enjoy it…</p>
+<p>Here we will use <a href="sklearn.org">schikit-learn</a> to do
+that:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>reg <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>reg.fit(X_train, Y_train)</span></code></pre></div>
+<pre><code>LinearRegression(fit_intercept=False)</code></pre>
+<p>Done! Sklearn ML algorithms include the bias separately by default
+but we included it in the feature vector. To avoid duplicating the bias
+feature, we use the argument <code>fit_intercept=False</code>. We can
+now look at the optimal coefficients <span
+class="math inline"><strong>w</strong></span></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>reg.coef_</span></code></pre></div>
+<pre><code>array([[-5.39970632,  6.05139237]])</code></pre>
+<p>Or to make these coefficients a bit more interpretable, let’s write a
+function that takes the optimal coefficients and returns the polynomial
+predictor. I’m using the <code>IPython</code> module to display the
+equation in a <span class="math inline">$\LaTeX$</span> format.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display, Math</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> latexify_predictor(coefs):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> [<span class="st">&#39;$f_\mathbf</span><span class="sc">{w}</span><span class="st">(x) = &#39;</span>]</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, c <span class="kw">in</span> <span class="bu">enumerate</span>(coefs):</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">abs</span>(c) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> c <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> i <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                s.append(<span class="st">&#39;+&#39;</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>            s.append(<span class="st">&#39;</span><span class="sc">{:.3f}</span><span class="st">&#39;</span>.<span class="bu">format</span>(c))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> i <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                s.append(<span class="st">&#39;x^</span><span class="sc">{}</span><span class="st">&#39;</span>.<span class="bu">format</span>(i))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    s.append(<span class="st">&#39;$&#39;</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">&#39;&#39;</span>.join(s)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>display(Math(latexify_predictor(reg.coef_[<span class="dv">0</span>])))</span></code></pre></div>
+<p><span
+class="math inline"><em>f</em><sub><strong>w</strong></sub>(<em>x</em>) =  − 5.400 + 6.051<em>x</em><sup>1</sup></span></p>
+<p>How good is this predictor? Now that we have the optimal model, it’s
+time to test it. Let’s define a <code>get_error</code> function that
+takes the input <code>x</code>, the output <code>y</code>, the predictor
+object <code>reg</code> and the polynomial degree as inputs, and returns
+the mean squared error. You can see that <code>reg.predict(X)</code>
+returns the prediction of the features <code>X</code>.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_error(x, y, reg, degree):</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> make_features(x, degree<span class="op">=</span>d)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> reg.predict(X)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    mse_val <span class="op">=</span> mean_squared_error(y, y_pred)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mse_val</span></code></pre></div>
+<p>We will also use the score (included in the predictor module),
+defined as</p>
+<p><span class="math display">$$ R^2 = \left( 1 - \frac{\sum_i (\hat y_i
+- y_i)^2}{\sum_i (y_i - \langle y \rangle)^2} \right)$$</span></p>
+<p>where <span class="math inline"><em>ŷ</em></span> is the prediction,
+<span class="math inline"><em>y</em></span> is the true value, <span
+class="math inline">⟨<em>y</em>⟩</span> is the average of the true
+values across the data. For <span
+class="math inline"><em>R</em><sup>2</sup> = 1</span> you have a perfect
+predictor, for <span
+class="math inline"><em>R</em><sup>2</sup> = 0</span>, you’re just
+predicting the average of the distribution, and the more negative <span
+class="math inline"><em>R</em><sup>2</sup></span> is, the worse your
+predictor. Let’s see what our predictor and the errors on the validation
+and training sets look like</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mse_dev <span class="op">=</span> get_error(x_dev, y_dev, reg, d)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mse_train <span class="op">=</span> get_error(x_train, y_train, reg, d)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>score_dev <span class="op">=</span> reg.score(X_dev, Y_dev)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>score_train <span class="op">=</span> reg.score(X_train, Y_train)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the errors</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;degree = </span><span class="sc">%d</span><span class="st">&#39;</span><span class="op">%</span>(d))</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;validation score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_dev ))</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;train score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_train ))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">&#39;</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;validation MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_dev))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;train MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_train))</span></code></pre></div>
+<pre><code>degree = 1
+
+
+validation score = -3.9439
+train score = 0.8572
+
+
+validation MSE = 239.3548
+train MSE = 21.2327</code></pre>
+<p>Here’s what the prediction looks like</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the input to span training and validation sets (excluding test set) - no cheating!</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>x_c <span class="op">=</span> np.linspace(x[<span class="dv">0</span>], np.<span class="bu">max</span>(x_dev), <span class="dv">100</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>ax.plot(x_c, reg.predict(make_features(x_c, degree<span class="op">=</span>d)), <span class="st">&#39;--&#39;</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>ax.plot(x_train, y_train, <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>ax.plot(x_dev, y_dev, <span class="st">&#39;^&#39;</span>, ms<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>ax.plot(x_dev, reg.predict(make_features(x_dev, degree<span class="op">=</span>d)), <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(np.<span class="bu">min</span>(y_train), np.<span class="bu">max</span>(y_dev))</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>ax.legend([<span class="st">&#39;polynomial fit&#39;</span>, <span class="st">&#39;train data&#39;</span>, <span class="st">&#39;dev data&#39;</span>, <span class="st">&#39;dev prediction&#39;</span>])</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_23_0.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p>You can see that the error on the training set is much lower than on
+the validation set. This is normal, but can we do better on the
+validation set? Are we overfitting or underfitting?</p>
+<p>Here we’re clearly underfitting: the model is too simple. We need to
+make it a bit more complex. To do that, set <span
+class="math inline"><em>d</em> = 2</span>, and try again. In this case,
+we know the right answer, but in real-world problems we don’t. We’d have
+to test different inputs <span class="math inline"><em>d</em></span> and
+see which one fits best. That’s why automating feature selection and
+hyperparameter tuning can save you a lot of time.</p>
+<p>To illustrate this point, I’ll define functions for splitting the
+data into train/dev/test sets and printing their error so we can train
+the model in a loop over different values of the degree <span
+class="math inline"><em>d</em></span>.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> split_data(x, y, test_size<span class="op">=</span><span class="fl">0.2</span>, shuffle<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> make_features(x, degree<span class="op">=</span>d)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    Y <span class="op">=</span> y.reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    X_train, X_test, Y_train, Y_test <span class="op">=</span> train_test_split(X, Y, test_size<span class="op">=</span>test_size, shuffle<span class="op">=</span>shuffle)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    X_train, X_dev, Y_train, Y_dev <span class="op">=</span> train_test_split(X_train, Y_train, test_size<span class="op">=</span>test_size, shuffle<span class="op">=</span>shuffle)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X_train, Y_train, X_dev, Y_dev, X_test, Y_test</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_results(x_train, y_train, x_dev, y_dev, reg, d):</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    x_c <span class="op">=</span> np.linspace(x[<span class="dv">0</span>], np.<span class="bu">max</span>(x_dev), <span class="dv">100</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> plt.figure()</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_c, reg.predict(make_features(x_c, degree<span class="op">=</span>d)), <span class="st">&#39;--&#39;</span>)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_train, y_train, <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_dev, y_dev, <span class="st">&#39;^&#39;</span>, ms<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    ax.plot(x_dev, reg.predict(make_features(x_dev, degree<span class="op">=</span>d)), <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    ax.set_ylim(np.<span class="bu">min</span>(y_train), np.<span class="bu">max</span>(y_dev))</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>    ax.legend([<span class="st">&#39;polynomial fit&#39;</span>, <span class="st">&#39;train data&#39;</span>, <span class="st">&#39;dev data&#39;</span>, <span class="st">&#39;dev prediction&#39;</span>])</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div>
+<p>Now we can loop over different values of <span
+class="math inline"><em>d</em></span>, pick the best predictor and
+finally test it on the test set. This is a good illustration of the
+whole machine learning process.</p>
+<p>In practice, you might have to store your trained models (usually on
+a local drive) because most real-world machine algorithms take a lot of
+time to train. You don’t want to be training the same model multiple
+times. In this case, the models and data are small so we can afford to
+simply save them in a list.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>degree_list <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>reg_list <span class="op">=</span> []</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mse_dev_list <span class="op">=</span> []</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>score_dev_list <span class="op">=</span> []</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> d <span class="kw">in</span> degree_list:</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Split data</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    X_train, Y_train, X_dev, Y_dev, X_test, Y_test <span class="op">=</span> split_data(x, y)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit model</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    reg <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    reg.fit(X_train, Y_train)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute errors</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    mse_dev <span class="op">=</span> get_error(x_dev, y_dev, reg, d)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    mse_train <span class="op">=</span> get_error(x_train, y_train, reg, d)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    score_dev <span class="op">=</span> reg.score(X_dev, Y_dev)</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    score_train <span class="op">=</span> reg.score(X_train, Y_train)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the errors</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">degree = </span><span class="sc">%d</span><span class="st">&#39;</span><span class="op">%</span>(d))</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;validation score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_dev ))</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;train score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_train ))</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;validation MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_dev))</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&#39;train MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_train))</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print model</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    display(Math(latexify_predictor(reg.coef_[<span class="dv">0</span>])))</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plot results</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>    plot_results(x_train, y_train, x_dev, y_dev, reg, d)</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Store results</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>    reg_list.append(reg)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>    mse_dev_list.append(mse_dev)</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>    score_dev_list.append(score_dev)</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    </span></code></pre></div>
+<pre><code>degree = 1
+validation score = -3.9439
+train score = 0.8572
+validation MSE = 239.3548
+train MSE = 21.2327</code></pre>
+<p><span
+class="math inline"><em>f</em><sub><strong>w</strong></sub>(<em>x</em>) =  − 5.400 + 6.051<em>x</em><sup>1</sup></span></p>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_27_2.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<pre><code>degree = 2
+validation score = 0.8524
+train score = 0.9421
+validation MSE = 7.1461
+train MSE = 8.6049</code></pre>
+<p><span
+class="math inline"><em>f</em><sub><strong>w</strong></sub>(<em>x</em>) = 2.182 − 1.213<em>x</em><sup>1</sup> + 1.141<em>x</em><sup>2</sup></span></p>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_27_5.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<pre><code>degree = 3
+validation score = 0.5591
+train score = 0.9435
+validation MSE = 21.3457
+train MSE = 8.4030</code></pre>
+<p><span
+class="math inline"><em>f</em><sub><strong>w</strong></sub>(<em>x</em>) = 3.265 − 3.338<em>x</em><sup>1</sup> + 1.983<em>x</em><sup>2</sup> − 0.088<em>x</em><sup>3</sup></span></p>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_27_8.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<pre><code>degree = 6
+validation score = -1.0592
+train score = 0.9450
+validation MSE = 99.6940
+train MSE = 8.1759</code></pre>
+<p><span
+class="math inline"><em>f</em><sub><strong>w</strong></sub>(<em>x</em>) = 4.341 − 6.731<em>x</em><sup>1</sup> + 4.156<em>x</em><sup>2</sup> − 0.500<em>x</em><sup>3</sup> + 0.008<em>x</em><sup>4</sup> + 0.002<em>x</em><sup>5</sup> + 0.000<em>x</em><sup>6</sup></span></p>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_27_11.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let&#39;s see who wins!</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>best_degree <span class="op">=</span> degree_list[np.argmax(score_dev_list)]</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;best predictor has degree (drum roll)... &#39;</span>, best_degree, <span class="st">&#39;!&#39;</span>)</span></code></pre></div>
+<pre><code>best predictor has degree (drum roll)...  2 !</code></pre>
+<p>Clearly, the 6th degree polynomial is over-fitting and the first
+degree polynomial is under-fitting. But with a large noise magnitude and
+so little data, it’s not clear whether a second order or third order
+polnomial will do better. When I run the model, sometimes it prefers the
+polynomial of degree <span class="math inline">3</span>. Conclusion:
+there’s no guarantee that we can even recover the model we used to
+generate the data! That’s a sobering lesson to learn from this example.
+Machine learning algorithms in general do not always discover the
+underlying pattern. This is a good analogy to think about even for more
+complex machine learning models like deep networks.</p>
+<p>Before we test our model on the test set, is there something else we
+can try? Can we do a better job to recover the quadratic model we used
+to generate the data? Of course! This is where regularization comes
+in.</p>
+<p>Linear predictors are great but they’d be even greater if there is a
+way we can get them to minimize over-fitting and generalize over the
+validation set without trying all possible polynomial degrees. To
+achieve that, we minimize the norm of <span
+class="math inline"><strong>w</strong></span> (by adding it to the
+original square loss). The <span
+class="math inline"><em>L</em><sub>1</sub></span> norm, <span
+class="math inline">|<strong>w</strong>|</span>, makes the predictor
+more sparse (sets small coefficients in the polynomial to zero), while
+the <span class="math inline"><em>L</em><sub>2</sub></span> norm <span
+class="math inline">∥<strong>w</strong>∥</span> makes the predictor less
+“wiggly” or smoother. Adding a loss term that minimizes the norm is
+called regularization.</p>
+<p>Let’s check out what the <span
+class="math inline"><em>L</em><sub>1</sub></span> norm does. In
+scikit-learn, the function that does that is <code>Lasso</code>, and you
+can find more details about it <a
+href="https://sklearn.org/modules/generated/sklearn.linear_model.Lasso.html#sklearn.linear_model.Lasso">here</a>.
+The syntax is exactly the same as before but replacing
+<code>LinearRegression</code> with <code>Lasso</code></p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Lasso</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>X_train, Y_train, X_dev, Y_dev, X_test, Y_test <span class="op">=</span> split_data(x, y)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit model</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>reg <span class="op">=</span> Lasso(fit_intercept<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>reg.fit(X_train, Y_train)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute errors</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>mse_dev <span class="op">=</span> get_error(x_dev, y_dev, reg, d)</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>mse_train <span class="op">=</span> get_error(x_train, y_train, reg, d)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>score_dev <span class="op">=</span> reg.score(X_dev, Y_dev)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>score_train <span class="op">=</span> reg.score(X_train, Y_train)</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the errors</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">degree = </span><span class="sc">%d</span><span class="st">&#39;</span><span class="op">%</span>(d))</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;validation score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_dev ))</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;train score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_train ))</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;validation MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_dev))</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;train MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_train))</span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Print model</span></span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>display(Math(latexify_predictor(reg.coef_)))</span>
+<span id="cb24-27"><a href="#cb24-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-28"><a href="#cb24-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot results</span></span>
+<span id="cb24-29"><a href="#cb24-29" aria-hidden="true" tabindex="-1"></a>plot_results(x_train, y_train, x_dev, y_dev, reg, d)</span></code></pre></div>
+<pre><code>degree = 2
+validation score = 0.8298
+train score = 0.9382
+validation MSE = 8.2384
+train MSE = 9.1895</code></pre>
+<p><span
+class="math inline"><em>f</em><sub><strong>w</strong></sub>(<em>x</em>) =  + 0.991<em>x</em><sup>2</sup></span></p>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_30_2.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p>Beautiful! Lasso recovered our model almost perfectly. The motivation
+for using sparse regularization is Occam’s razor: the simplest
+explanation is usually the right one. The algorithm found that it only
+needs one term to fit the data, so it set the other terms to zero. This
+is the power of adding the norm <span
+class="math inline">|<strong>w</strong>|</span> to the loss. There’s
+something I ignored when I use Lasso: how of the <span
+class="math inline"><em>L</em><sub>1</sub></span> norm to include. You
+will see in the documentation that it is set to <span
+class="math inline">1.0</span> by default, but in my experience, you’ll
+want to include much less than that to avoid making the model too
+simple. That’s a hyperparameter that you can also loop over and see what
+works best for your model.</p>
+<p>Finally, we can test our model on the test set:</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the errors</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;</span><span class="ch">\n</span><span class="st">degree = </span><span class="sc">%d</span><span class="st">&#39;</span><span class="op">%</span>(d))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;validation score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_dev ))</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;train score = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>( score_train ))</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;validation MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_dev))</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&#39;train MSE = </span><span class="sc">%.4f</span><span class="st">&#39;</span><span class="op">%</span>(mse_train))</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(<span class="dv">111</span>)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>ax.plot(x, reg.predict(make_features(x, degree<span class="op">=</span>d)), <span class="st">&#39;--&#39;</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>ax.plot(x_train, y_train, <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>ax.plot(x_dev, y_dev, <span class="st">&#39;^&#39;</span>, ms<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>ax.plot(x_dev, reg.predict(make_features(x_dev, degree<span class="op">=</span>d)), <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>ax.plot(x_test, y_test, <span class="st">&#39;*&#39;</span>, ms<span class="op">=</span><span class="dv">6</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>ax.plot(x_test, reg.predict(make_features(x_test, degree<span class="op">=</span>d)), <span class="st">&#39;.&#39;</span>)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">&#39;x&#39;</span>)</span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">&#39;y&#39;</span>)</span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>ax.legend([<span class="st">&#39;polynomial fit&#39;</span>, <span class="st">&#39;train data&#39;</span>, <span class="st">&#39;dev data&#39;</span>, <span class="st">&#39;dev prediction&#39;</span>, <span class="st">&#39;test data&#39;</span>, <span class="st">&#39;test prediction&#39;</span>])</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div>
+<pre><code>degree = 2
+validation score = 0.8298
+train score = 0.9382
+validation MSE = 8.2384
+train MSE = 9.1895</code></pre>
+<figure>
+<img src="ML_tutorial_files/ML_tutorial_32_1.png" alt="png" />
+<figcaption aria-hidden="true">png</figcaption>
+</figure>
+<p>Adding regularization will also prevent higher order polynomials from
+over-fitting. Lasso might get rid of all other features except the one
+you need! This is a teaser. Download the code and try it out
+yourself.</p>
+<p>One way of improving your predictions is to add more data. If you go
+back and set the data input to a 1000, you’ll see that your results will
+be much better. The higher dimensional your feature vector, the more
+data you need. This is particularly the case with neural networks: those
+beasts are always data-hungry!</p>
+</body>
+</html>
